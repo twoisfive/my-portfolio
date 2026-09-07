@@ -168,3 +168,155 @@ h1, .brand {
     border-radius: var(--radius);
     border: 3px solid var(--ink);
 }
+
+.interests {
+    padding: 4.5rem 0 5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+.i-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-areas:
+        "anim text";
+    gap: 1.5rem ;
+    padding-top: 3rem;
+}
+
+.i-anim {
+    grid-area: anim;
+    align-self: center;
+}
+
+.i-text {
+    grid-area: text;
+    align-self: left;
+    text-align: left;   
+}
+
+
+.w-500 {
+    width: 500px;
+}
+
+.w-400 {
+    width: 400px;
+}
+
+.w-350 {
+    width: 350px;
+}
+
+.w-300 {
+    width: 300px;
+}
+
+.w-250{
+    width: 250px;
+}
+
+.w-200{
+    width: 200px;
+}
+
+.w-150{
+    width: 150px;
+}
+
+.w-100{
+    width: 100px;
+}
+
+.h-500 {
+    height: 500px;
+}
+
+.h-400 {
+    height: 400px;
+}
+
+.h-350{
+    height: 350px;
+}
+
+.h-300 {
+    height: 300px;
+}
+
+.h-250 {
+    height: 250px;
+}
+
+.h-200 {
+    height: 200px;
+}
+
+.h-150 {
+    height: 150px;
+}
+
+.h-100 {
+    height: 100px;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
+.gap-2 {
+    gap: 2rem;
+}
+
+.gap-3 {
+    gap: 3rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.contain {
+    object-fit: contain;
+}
+
+.content-center {
+    justify-content: center;
+}
+
+.content-sb{
+    justify-content: space-between;
+}
+
+.no-wrap{
+    flex-wrap: nowrap;
+}
+
+.standard-margins{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
