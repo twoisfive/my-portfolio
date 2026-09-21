@@ -1,103 +1,95 @@
-{% extends "base.html" %}
-<!doctype html>
-<html lang="en">
-  <head>
-    {% block meta %}
-    <title>Projects - {{ name }}</title>
-    {% endblock meta %}
-  </head>
-  <body>
-    {% block content %}
-    <main>
-      <section class="experience-section" id="projects">
-        <div class="container">
-          <p class="section-kicker">Hal-hal yang pernah saya bangun</p>
+{% extends "base.html" %} {% block meta %}
+<title>Projects - {{ name }}</title>
+{% endblock meta %} {% block content %}
+<main>
+  <section class="entry-section" id="projects">
+    <div class="container">
+      <p class="section-kicker">Hal-hal yang pernah saya bangun</p>
 
-          <div class="project-header">
-            <h1>Projects</h1>
-            <a
-              href="{% url 'main:create_project' %}"
-              class="button project-add-button"
-            >
-              <span aria-hidden="true">+</span>
-              Tambah Proyek
-            </a>
-          </div>
-          <form
-            method="get"
-            action="{% url 'main:show_projects' %}"
-            class="project-search"
-          >
-            <input
-              type="search"
-              name="title"
-              value="{{ title_query }}"
-              placeholder="Cari berdasarkan nama proyek"
-              class="project-search__input"
-              aria-label="Cari berdasarkan nama proyek"
-            />
-            <button type="submit" class="button">Cari</button>
-          </form>
+      <div class="entry-header">
+        <h1>Projects</h1>
+        <a
+          href="{% url 'main:create_project' %}"
+          class="button entry-add-button"
+        >
+          <span aria-hidden="true">+</span>
+          Tambah Proyek
+        </a>
+      </div>
 
-          <h1>Projects</h1>
+      <form
+        method="get"
+        action="{% url 'main:show_projects' %}"
+        class="entry-search"
+      >
+        <input
+          type="search"
+          name="title"
+          value="{{ title_query }}"
+          placeholder="Cari berdasarkan nama proyek"
+          class="entry-search__input"
+          aria-label="Cari berdasarkan nama proyek"
+        />
+        <button type="submit" class="button">Cari</button>
+      </form>
 
-          <div class="experience-grid">
-            {% for project in project_list %}
-            <article class="experience-card">
-              <img
-                class="avatar"
-                src="{{ project.thumbnail }}"
-                alt="{{ project.title }}"
-              />
-              <span class="experience-category">
-                {{ project.get_role_display }}
-              </span>
-              <h2>{{ project.title }}</h2>
-              <p class="experience-description">{{ project.description }}</p>
+      <div class="entry-grid">
+        {% for project in project_list %}
+        <article class="entry-card">
+          <img
+            class="entry-thumbnail"
+            src="{{ project.thumbnail }}"
+            alt="{{ project.title }}"
+          />
+          <span class="entry-category"> {{ project.get_role_display }} </span>
+          <h2>{{ project.title }}</h2>
+          <p class="entry-description">{{ project.description }}</p>
 
-              {% if project.tech_list %}
-              <div class="tech-tags">
-                {% for tech in project.tech_list %}
-                <span class="tech-tag">{{ tech }}</span>
-                {% endfor %}
-              </div>
-              {% endif %} {% if project.project_url or project.repo_url %}
-              </div>
-              {% endif %} {% if project.is_ongoing %}
-              <p class="experience-status">Sedang berlangsung</p>
-              {% else %}
-              <p class="experience-status">Selesai</p>
-              {% endif %}
-              <div class="project-card-actions">
-                <div class="project-actions">
-                  <div class="project-links">
-                {% if project.project_url %}
-                <a
-                  class="project-link"
-                  href="{{ project.project_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  >Live Demo</a
-                >
-                {% endif %} {% if project.repo_url %}
-                <a
-                  class="project-link"
-                  href="{{ project.repo_url }}"
-                  target="_blank"
-                  rel="noopener"
-                  >Source Code</a
-                >
-                {% endif %} {% include "components/project_delete_modal.html" with project=project %}
-                </div>
-              </div>
-            </article>
-            {% empty %}
-            <p class="empty-state">Belum ada proyek yang ditambahkan.</p>
+          {% if project.tech_list %}
+          <div class="tech-tags">
+            {% for tech in project.tech_list %}
+            <span class="tech-tag">{{ tech }}</span>
             {% endfor %}
           </div>
-        </div>
-      </section>
-    </main>
-    {% endblock content %}
-  </body>
-</html>
+          {% endif %} {% if project.is_ongoing %}
+          <p class="entry-status">Sedang berlangsung</p>
+          {% else %}
+          <p class="entry-status">Selesai</p>
+          {% endif %}
+
+          <div class="entry-card-actions">
+            {% if project.project_url or project.repo_url %}
+            <div class="entry-links">
+              {% if project.project_url %}
+              <a
+                class="entry-link"
+                href="{{ project.project_url }}"
+                target="_blank"
+                rel="noopener"
+                >Live Demo</a
+              >
+              {% endif %} {% if project.repo_url %}
+              <a
+                class="entry-link"
+                href="{{ project.repo_url }}"
+                target="_blank"
+                rel="noopener"
+                >Source Code</a
+              >
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="entry-actions">
+              {% include "components/project_delete_modal.html" with project=project %}
+            </div>
+          </div>
+        </article>
+        {% empty %}
+        <p class="empty-state">Belum ada proyek yang ditambahkan.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock content %}
