@@ -77,16 +77,7 @@
       <div class="form-group">
         <label for="id_category-{{ experience.id }}">Kategori Pengalaman</label>
         <select id="id_category-{{ experience.id }}" name="category" required>
-          {% for value, label in experience.EXPERIENCE_CHOICES %}
-          <option
-            value="{{ value }}"
-            {%
-            if
-            experience.category=""
-            ="value"
-            %}selected{%
-            endif
-            %}
+          <option value="{{ value }}" {% if experience.category == value %}selected{% endif %}>
           >
             {{ label }}
           </option>
