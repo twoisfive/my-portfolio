@@ -1,0 +1,133 @@
+<p class="experience-status">
+  <button
+    type="button"
+    class="button button-secondary"
+    popovertarget="update-experience-{{ experience.id }}"
+    aria-label="Edit {{ experience.title }}"
+    title="Edit pengalaman"
+  >
+    Edit Experience
+  </button>
+</p>
+
+<div
+  id="update-experience-{{ experience.id }}"
+  class="project-delete-modal"
+  popover="auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="update-experience-title-{{ experience.id }}"
+>
+  <button
+    type="button"
+    class="project-delete-modal__backdrop"
+    popovertarget="update-experience-{{ experience.id }}"
+    popovertargetaction="hide"
+    aria-label="Tutup form edit"
+  ></button>
+
+  <div class="project-delete-modal__content">
+    <button
+      type="button"
+      class="project-delete-modal__close"
+      popovertarget="update-experience-{{ experience.id }}"
+      popovertargetaction="hide"
+      aria-label="Tutup form edit"
+    >
+      ×
+    </button>
+
+    <h2 id="update-experience-title-{{ experience.id }}">Edit Experience</h2>
+
+    <form
+      method="post"
+      action="{% url 'main:update_experience' experience.id %}"
+      class="experience-form"
+    >
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="id_title-{{ experience.id }}">Nama Pengalaman</label>
+        <input
+          type="text"
+          id="id_title-{{ experience.id }}"
+          name="title"
+          value="{{ experience.title }}"
+          maxlength="255"
+          placeholder="Software Engineer Intern at Google"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_description-{{ experience.id }}"
+          >Deskripsi Pengalaman</label
+        >
+        <textarea
+          id="id_description-{{ experience.id }}"
+          name="description"
+          rows="3"
+          placeholder="Ceritakan pengalamanmu"
+          required
+        >
+{{ experience.description }}</textarea
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="id_category-{{ experience.id }}">Kategori Pengalaman</label>
+        <select id="id_category-{{ experience.id }}" name="category" required>
+          <option value="{{ value }}" {% if experience.category == value %}selected{% endif %}>
+          >
+            {{ label }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="id_started_at-{{ experience.id }}">Tanggal Mulai</label>
+        <input
+          type="date"
+          id="id_started_at-{{ experience.id }}"
+          name="started_at"
+          value="{{ experience.started_at|date:'Y-m-d' }}"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_ended_at-{{ experience.id }}">Tanggal Selesai</label>
+        <input
+          type="date"
+          id="id_ended_at-{{ experience.id }}"
+          name="ended_at"
+          value="{{ experience.ended_at|date:'Y-m-d' }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_thumbnail-{{ experience.id }}">Thumbnail</label>
+        <input
+          type="url"
+          id="id_thumbnail-{{ experience.id }}"
+          name="thumbnail"
+          value="{{ experience.thumbnail }}"
+          placeholder="https://drive.google.com/thumbnail?id=...&sz=w1000"
+        />
+      </div>
+
+      <div class="project-delete-modal__actions">
+        <button
+          type="button"
+          class="button button-secondary"
+          popovertarget="update-experience-{{ experience.id }}"
+          popovertargetaction="hide"
+        >
+          Batal
+        </button>
+        <button type="submit" class="button">Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>
