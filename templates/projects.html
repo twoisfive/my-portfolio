@@ -8,6 +8,7 @@
 
       <div class="entry-header">
         <h1>Projects</h1>
+        {% if user.is_superuser %}
         <a
           href="{% url 'main:create_project' %}"
           class="button entry-add-button"
@@ -15,6 +16,7 @@
           <span aria-hidden="true">+</span>
           Tambah Proyek
         </a>
+        {% endif %}        
       </div>
 
       <form
@@ -81,7 +83,11 @@
             {% endif %}
 
             <div class="entry-actions">
+              {% if user.is_superuser %}
+              {% include "components/project_star.html" with project=project %}
               {% include "components/project_delete_modal.html" with project=project %}
+              {% endif %}
+              
             </div>
           </div>
         </article>

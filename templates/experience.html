@@ -8,6 +8,7 @@
 
       <div class="entry-header">
         <h1>Experience</h1>
+        {% if user.is_superuser %}
         <a
           href="{% url 'main:create_experience' %}"
           class="button entry-add-button"
@@ -15,6 +16,7 @@
           <span aria-hidden="true">+</span>
           Tambah Experience
         </a>
+        {% endif %}        
       </div>
 
       <form
@@ -55,8 +57,10 @@
 
           <div class="entry-card-actions">
             <div class="entry-actions">
+              {% if user.is_superuser %}
               {% include "components/experience_delete_modal.html" %}
               {% include "components/experience_update_modal.html" %}
+              {% endif %} 
             </div>
           </div>
         </article>
