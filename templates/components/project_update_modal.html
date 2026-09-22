@@ -1,0 +1,175 @@
+<p class="experience-status">
+  <button
+    type="button"
+    class="button button-secondary"
+    popovertarget="update-project-{{ project.id }}"
+    aria-label="Edit {{ project.title }}"
+    title="Edit proyek"
+  >
+    Edit Project
+  </button>
+</p>
+
+<div
+  id="update-project-{{ project.id }}"
+  class="project-delete-modal"
+  popover="auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="update-project-title-{{ project.id }}"
+>
+  <button
+    type="button"
+    class="project-delete-modal__backdrop"
+    popovertarget="update-project-{{ project.id }}"
+    popovertargetaction="hide"
+    aria-label="Tutup form edit"
+  ></button>
+
+  <div class="project-delete-modal__content">
+    <button
+      type="button"
+      class="project-delete-modal__close"
+      popovertarget="update-project-{{ project.id }}"
+      popovertargetaction="hide"
+      aria-label="Tutup form edit"
+    >
+      ×
+    </button>
+
+    <h2 id="update-project-title-{{ project.id }}">Edit Project</h2>
+
+    <form
+      method="post"
+      action="{% url 'main:update_project' project.id %}"
+      class="experience-form"
+    >
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="id_title-{{ project.id }}">Nama Proyek</label>
+        <input
+          type="text"
+          id="id_title-{{ project.id }}"
+          name="title"
+          value="{{ project.title }}"
+          maxlength="255"
+          placeholder="Sistem Informasi Akademik"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_description-{{ project.id }}">Deskripsi Proyek</label>
+        <textarea
+          id="id_description-{{ project.id }}"
+          name="description"
+          rows="3"
+          placeholder="Ceritakan proyekmu"
+          required
+        >
+{{ project.description }}</textarea
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="id_role-{{ project.id }}">Peran</label>
+        <select id="id_role-{{ project.id }}" name="role" required>
+          {% for value, label in project.ROLE_CHOICES %}
+          <option
+            value="{{ value }}"
+            {%
+            if
+            project.role=""
+            ="value"
+            %}selected{%
+            endif
+            %}
+          >
+            {{ label }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="id_tech_stack-{{ project.id }}">Tech Stack</label>
+        <input
+          type="text"
+          id="id_tech_stack-{{ project.id }}"
+          name="tech_stack"
+          value="{{ project.tech_stack }}"
+          maxlength="255"
+          placeholder="React, Django, PostgreSQL"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_started_at-{{ project.id }}">Tanggal Mulai</label>
+        <input
+          type="date"
+          id="id_started_at-{{ project.id }}"
+          name="started_at"
+          value="{{ project.started_at|date:'Y-m-d' }}"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_ended_at-{{ project.id }}">Tanggal Selesai</label>
+        <input
+          type="date"
+          id="id_ended_at-{{ project.id }}"
+          name="ended_at"
+          value="{{ project.ended_at|date:'Y-m-d' }}"
+          placeholder="Kosongkan jika masih berjalan"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_thumbnail-{{ project.id }}">Thumbnail</label>
+        <input
+          type="url"
+          id="id_thumbnail-{{ project.id }}"
+          name="thumbnail"
+          value="{{ project.thumbnail|default_if_none:'' }}"
+          placeholder="https://drive.google.com/thumbnail?id=...&sz=w1000"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_project_url-{{ project.id }}">Link Proyek</label>
+        <input
+          type="url"
+          id="id_project_url-{{ project.id }}"
+          name="project_url"
+          value="{{ project.project_url|default_if_none:'' }}"
+          placeholder="https://example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="id_repo_url-{{ project.id }}">Link Repository</label>
+        <input
+          type="url"
+          id="id_repo_url-{{ project.id }}"
+          name="repo_url"
+          value="{{ project.repo_url|default_if_none:'' }}"
+          placeholder="https://github.com/username/repo"
+        />
+      </div>
+
+      <div class="project-delete-modal__actions">
+        <button
+          type="button"
+          class="button button-secondary"
+          popovertarget="update-project-{{ project.id }}"
+          popovertargetaction="hide"
+        >
+          Batal
+        </button>
+        <button type="submit" class="button">Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>

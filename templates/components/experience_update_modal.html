@@ -77,7 +77,16 @@
       <div class="form-group">
         <label for="id_category-{{ experience.id }}">Kategori Pengalaman</label>
         <select id="id_category-{{ experience.id }}" name="category" required>
-          <option value="{{ value }}" {% if experience.category == value %}selected{% endif %}>
+          {% for value, label in experience.CATEGORY_CHOICES %}
+          <option
+            value="{{ value }}"
+            {%
+            if
+            experience.category=""
+            ="value"
+            %}selected{%
+            endif
+            %}
           >
             {{ label }}
           </option>
@@ -103,6 +112,7 @@
           id="id_ended_at-{{ experience.id }}"
           name="ended_at"
           value="{{ experience.ended_at|date:'Y-m-d' }}"
+          placeholder="Kosongkan jika masih berjalan"
         />
       </div>
 
@@ -112,7 +122,7 @@
           type="url"
           id="id_thumbnail-{{ experience.id }}"
           name="thumbnail"
-          value="{{ experience.thumbnail }}"
+          value="{{ experience.thumbnail|default_if_none:'' }}"
           placeholder="https://drive.google.com/thumbnail?id=...&sz=w1000"
         />
       </div>

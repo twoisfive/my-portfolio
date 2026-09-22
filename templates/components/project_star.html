@@ -1,6 +1,6 @@
 <form
   method="post"
-  action="{% url 'main:toggle_star' project.id %}"
+  action="{% url 'main:toggle_star_project' project.id %}"
   class="star-form"
 >
   {% csrf_token %}

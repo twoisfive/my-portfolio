@@ -57,10 +57,15 @@
 
           <div class="entry-card-actions">
             <div class="entry-actions">
+              {% if user.is_authenticated %}
+              {% include "components/experience_star.html" with experience=experience %}
               {% if user.is_superuser %}
               {% include "components/experience_delete_modal.html" %}
+              {% endif %}
+              {% if perms.main.change_experience %}
               {% include "components/experience_update_modal.html" %}
               {% endif %} 
+              {% endif %}
             </div>
           </div>
         </article>
