@@ -11,14 +11,15 @@ class MainTest(TestCase):
             title="Asisten Dosen PBP",
             description="Membantu mahasiswa memahami pengembangan web.",
             category="part-time",
+            started_at=timezone.now(),
         )
         self.project = Project.objects.create(
             title="School Information System",
             description="Sistem informasi sekolah untuk mencatat kehadiran dan pembayaran.",
             role="frontend",
             tech_stack="React, Django, PostgreSQL",
+            started_at=timezone.now(),
         )
-
 
     def test_main_url_is_accessible(self):
         response = self.client.get(reverse("main:show_main"))
