@@ -1,6 +1,7 @@
 from django.urls import path
 
 from main.views import (
+    create_experience_ajax,
     show_main,
     show_projects,
     create_project,
@@ -48,4 +49,5 @@ urlpatterns = [
     name="toggle_star_experience",
     ),
     path("projects/add-ajax/", create_project_ajax, name="create_project_ajax"),
+    path("experience/add-ajax/", create_experience_ajax, name="create_experience_ajax"),
 ]

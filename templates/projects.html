@@ -286,6 +286,10 @@ if (projectForm) {
     projectForm.addEventListener('submit', addProject);
 }
 
+function closeProjectModal() {
+    document.getElementById("add-project-modal").hidePopover();
+}
+
 // Start application
 fetchProjects(searchInput.value.trim());
 </script>

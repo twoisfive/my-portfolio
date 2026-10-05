@@ -36,6 +36,7 @@ def show_experience(request):
     context = {
         "name": "Faaiz",
         "experience_list": Experience.objects.all(),
+        "form": ExperienceForm(),
     }
     return render(request, "experience.html", context)
 
@@ -55,7 +56,7 @@ def create_experience(request):
         "name": "Faaiz",
         "form": form,
     }
-    return render(request, "experience_form.html", context)
+    return render(request, "experience.html", context)
 
 @group_required()
 def delete_experience(request, experience_id):
@@ -204,6 +205,7 @@ def delete_project(request, project_id):
     return redirect("main:show_projects")
 
 @require_POST
+@group_required()
 def create_project_ajax(request):
     if not request.user.is_superuser:
         return JsonResponse(
@@ -271,7 +273,7 @@ def toggle_star_project(request, project_id):
 
     return redirect("main:show_projects")
 
-@group_required("Editor, ")
+@group_required("Editor")
 def toggle_star_experience(request, experience_id):
     experience = get_object_or_404(Experience, pk=experience_id)
 
@@ -284,3 +286,22 @@ def toggle_star_experience(request, experience_id):
             experience.starred_by.add(request.user)
 
     return redirect("main:show_experience")
+
+@require_POST
+@group_required()
+def create_experience_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan pengalaman."},
+            status=403,
+        )
+
+    form = ExperienceForm(request.POST)
+    if form.is_valid():
+        experience = form.save()
+        return JsonResponse(
+            {"message": "Pengalaman berhasil ditambahkan.", "pk": str(experience.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
