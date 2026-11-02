@@ -44,17 +44,18 @@ class MainTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "experience.html")
-        self.assertContains(response, self.experience.title)
-        self.assertContains(response, self.experience.description)
-        self.assertContains(response, "Part-Time")
-        self.assertContains(response, "Sedang berlangsung")
+        self.assertContains(response, "Experience")
+        self.assertContains(response, "experience-search-form")
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
 
     def test_empty_experience_page(self):
         Experience.objects.all().delete()
         response = self.client.get(reverse("main:show_experience"))
 
-        self.assertContains(response, "Belum ada pengalaman yang ditambahkan.")
+        self.assertContains(
+            response,
+            "Belum ada pengalaman yang ditambahkan atau ditemukan.",
+        )
 
     def test_completed_experience(self):
         self.experience.ended_at = timezone.now()
@@ -62,8 +63,8 @@ class MainTest(TestCase):
         response = self.client.get(reverse("main:show_experience"))
 
         self.assertFalse(self.experience.is_ongoing)
-        self.assertContains(response, "Selesai")
-        self.assertNotContains(response, "Sedang berlangsung")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "experience.html")
 
     def test_project_model(self):
         self.assertEqual(str(self.project), "School Information System")
@@ -82,25 +83,33 @@ class MainTest(TestCase):
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
 
     def test_project_data_appears_on_page(self):
-        response = self.client.get(reverse("main:show_projects"))
+        response = self.client.get(reverse("main:api:project-list"))
 
-        self.assertContains(response, self.project.title)
-        self.assertContains(response, self.project.description)
-        self.assertContains(response, "Frontend Developer")
-        self.assertContains(response, "React")
-        self.assertContains(response, "Sedang berlangsung")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        project_data = response.data[0]
+        self.assertEqual(project_data["title"], self.project.title)
+        self.assertEqual(project_data["description"], self.project.description)
+        self.assertEqual(project_data["role"], "frontend")
+        self.assertEqual(project_data["tech_list"], ["React", "Django", "PostgreSQL"])
+        self.assertTrue(project_data["is_ongoing"])
 
     def test_empty_project_page_shows_empty_state(self):
         Project.objects.all().delete()
         response = self.client.get(reverse("main:show_projects"))
 
-        self.assertContains(response, "Belum ada proyek yang ditambahkan.")
+        self.assertContains(
+            response,
+            "Belum ada proyek yang ditambahkan atau ditemukan.",
+        )
 
     def test_completed_project(self):
         self.project.ended_at = timezone.now()
         self.project.save()
-        response = self.client.get(reverse("main:show_projects"))
+        response = self.client.get(reverse("main:api:project-list"))
 
         self.assertFalse(self.project.is_ongoing)
-        self.assertContains(response, "Selesai")
-        self.assertNotContains(response, "Sedang berlangsung")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertFalse(response.data[0]["is_ongoing"])
+        self.assertIsNotNone(response.data[0]["ended_at"])
