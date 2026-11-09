@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import User 
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Experience(models.Model):
     EXPERIENCE_CHOICES = [
@@ -30,6 +31,13 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+    
+    def clean(self):
+        super().clean()
+        if self.ended_at and self.started_at and self.ended_at < self.started_at:
+            raise ValidationError({
+                "ended_at": "Tanggal selesai tidak boleh lebih awal dari tanggal mulai."
+            })
     
     
 class Project(models.Model):
