@@ -5,6 +5,8 @@
 3. Dalam DRF, autentikasi dan autorisasi menggunakan permissions.py. Perbedaan utama dibandingkan auth biasanya adalah auth di DRF diimplementasikan untuk metode-metode HTTP spesifik. Sebagai contoh, suatu permission class dapat memberikan autorisasi hanya untuk GET untuk user yang sudah login, tidak memberikan autorisasi apapun jika belum, memberikan role specific autorisasi untuk PUT & PATCH, dan untuk superuser semua nya bisa. Hal ini perlu diimplementasikan agar user yang seharusnya tidak memiliki autorisasi tidak bisa mengakses API dengan menulis langsung dengan URL untuk mengakses API nya.
 4. Dalam DRF CSRF token masih diperlukan agar situs lain tidak mengakses situs kita melalui cookie yang disimpan di browser. CSRF token diperlukan karena hanya bisa didapatkan oleh client JS sehingga tidak terakses oleh situs lainnya. Session authentication menggunakan cookie juga sehingga memerlukan CSRF token agar cookie yang secara automatis dikirim dapat dicek ulang dengan CSRF yang tersimpan di dalam halaman. ForceAuthenticate tidak cukup karena akan bypass CSRF secara langsung.
 
+AI Disclosure: Deepseek digunakan untuk menjawab pertanyaan mengenai kode serta memberi solusi-solusi terhadap error. Agent copilot digunakan untuk memeriksa kode secara wholistic serta mengedit kode bila terdapat kekurangan.
+
 Pertanyaan Reflektif Tugas 5:
 
 1. Debouncing merupakan suatu teknik dimana berbagai operasi programming yang terjadi dalam rentang waktu sangat dekat digabungkan menjadi satu batch agar operasinya hanya dilaksanakan beberapa kali. Hal ini digunakan dalam searching karena seseorang sudah mengetahui query yg ia ingin tulis sehingga operasi berulang tidak melambatkan proses tersebut
